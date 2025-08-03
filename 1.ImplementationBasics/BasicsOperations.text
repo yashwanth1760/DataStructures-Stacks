@@ -1,0 +1,139 @@
+**📌 Stack – Complete Theory**
+
+**Definition**
+
+A **Stack** is a **linear data structure** that follows the **LIFO (Last In, First Out)** principle.
+
+* The last element pushed into the stack will be the first one to be popped out.
+* Think of it like a stack of plates — you add plates on top, and you remove from the top.
+
+---
+
+**📌 Properties of Stack**
+
+1. **Order of Operations**: Follows **LIFO** (Last In, First Out)
+2. **Restricted Access**: Insertion and deletion happen **only at one end** — called the **top** of the stack.
+3. **Dynamic or Static Size**:
+
+   * Array-based stack → fixed size (unless dynamic array used)
+   * Linked list-based stack → dynamic size
+4. **Access Time**: You cannot randomly access elements; must pop until the desired element is on top.
+5. **Efficient Operations**:
+
+   * `push`, `pop`, `top` are **O(1)** time complexity.
+6. **Memory**: Continuous memory in array implementation, scattered in linked list implementation.
+
+---
+
+**📌 Basic Operations**
+
+| Operation          | Description                                          | Time Complexity |
+| ------------------ | ---------------------------------------------------- | --------------- |
+| **push(x)**        | Adds element `x` to the top of the stack.            | O(1)            |
+| **pop()**          | Removes the top element of the stack.                | O(1)            |
+| **top() / peek()** | Returns the top element **without** removing it.     | O(1)            |
+| **size()**         | Returns the number of elements in the stack.         | O(1)            |
+| **empty()**        | Checks if the stack is empty. Returns `true` if yes. | O(1)            |
+
+---
+
+**1️⃣ push(x)**
+
+* **Meaning**: Insert `x` at the top.
+* **Steps**: Increase top pointer → place element at new top.
+* **Complexity**: O(1)
+
+---
+
+**2️⃣ pop()**
+
+* **Meaning**: Remove the element at the top.
+* **Steps**: Remove top element → decrease top pointer.
+* **Complexity**: O(1)
+  ⚠ **Error**: Underflow (if pop is called on empty stack)
+
+---
+
+**3️⃣ top() / peek()**
+
+* **Meaning**: Access the top element without removing it.
+* **Complexity**: O(1)
+  ⚠ **Error**: Undefined for empty stack.
+
+---
+
+**4️⃣ size()**
+
+* **Meaning**: Number of elements currently in the stack.
+* **Complexity**: O(1) (if maintained as a counter)
+
+---
+
+**5️⃣ empty()**
+
+* **Meaning**: Returns `true` if stack contains no elements.
+* **Complexity**: O(1)
+
+---
+**📌 Stack Implementations**
+
+1. **Array-based** (Static stack)
+
+   * Pros: Fast access
+   * Cons: Fixed size, possible overflow
+2. **Linked List-based** (Dynamic stack)
+
+   * Pros: No overflow (until memory full)
+   * Cons: Slightly more memory per element (pointer storage)
+
+
+//*****************//**************//***************//
+
+
+we use STL for stack implementation in C++
+stack<int>s;
+s.push(1);
+s.push(2);
+s.size();
+s.isempty();
+s.top();
+
+under the hood stack implemented by dequeue data structure in STL
+
+
+
+vector vs stack 
+
+in vector we  may waste  space if we insert element at the end of the vector and then we delete it from the end of the vector. But in stack we don't waste space because we always delete the top element of th stack.
+
+1️⃣ Purpose & Abstraction
+std::stack is a container adaptor in C++ that provides only the stack interface (push, pop, top, empty, size).
+
+With a vector, you have extra functions (insert, erase, operator[]) that don’t belong to a pure LIFO structure.
+
+Using stack makes it clear in code that you’re working with a LIFO structure, not a random-access container.
+
+2️⃣ Flexibility of Implementation
+std::stack can be built on vector, deque (default), or list — so you can swap the underlying container without changing logic.
+
+A pure vector-based stack has one fixed implementation.
+
+3️⃣ Algorithmic Usage
+In algorithm design, “stack” isn’t just about where you store data — it’s about the discipline of LIFO access.
+
+Many problems (DFS, expression evaluation, parentheses matching, recursion simulation, monotonic stack problems) rely on LIFO behavior.
+
+Teaching & theory: Stacks are a foundational data structure in DSA education and interviews.
+
+4️⃣ Performance Notes
+Vector’s push_back / pop_back are O(1) amortized — so for stack-like usage, vector is fine.
+
+But if you need a linked-list stack (no contiguous memory needed, fast allocation/deallocation of arbitrary sizes), stack with list underneath might be better.
+
+Stack implemented with a vector might waste space because vector can allocate extra capacity to grow dynamically.
+
+5️⃣ Safety & Intent
+With stack, you cannot accidentally access elements out of LIFO order — no operator[], no begin() iterator.
+
+This enforces correct algorithmic usage and prevents mistakes.
+

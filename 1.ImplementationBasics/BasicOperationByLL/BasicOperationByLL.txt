@@ -1,0 +1,196 @@
+# **Linked-List-Based Stack Implementation – Theory**
+
+---
+
+## **1. Definition**
+
+A **stack** using a **linked list** implements the **LIFO (Last In, First Out)** principle by inserting and removing nodes at one end, called the **top**.
+Instead of contiguous memory, it uses nodes that are dynamically allocated and linked via pointers; the top always points to the most recently inserted node.
+
+---
+
+## **2. Core Components**
+
+* **Node**
+
+  * Contains the stored value and a pointer/reference to the next node.
+  * Typical structure:
+
+    ```cpp
+    struct Node {
+        int data;
+        Node* next;
+    };
+    ```
+
+* **Top Pointer** `top`
+
+  * Points to the current top node of the stack (most recently pushed).
+  * If `top == nullptr`, the stack is empty.
+
+* **No fixed capacity (unless enforced externally)**
+
+  * Size grows/shrinks dynamically with pushes/pops, limited only by available memory.
+
+---
+
+## **3. Basic Operations**
+
+### **a) push(x)**
+
+* **Goal**: Insert element `x` on top of the stack.
+* **Steps**:
+
+  1. Allocate a new node with `data = x`.
+  2. Set `new_node->next = top`.
+  3. Update `top = new_node`.
+* **Time Complexity**: O(1)
+
+---
+
+### **b) pop()**
+
+* **Goal**: Remove and return the top element.
+* **Precondition**: Stack must not be empty.
+* **Steps**:
+
+  1. If `top == nullptr`, underflow error.
+  2. Save `value = top->data`.
+  3. Keep a temp pointer to current top, update `top = top->next`.
+  4. Delete the old top node.
+  5. Return `value`.
+* **Time Complexity**: O(1)
+
+---
+
+### **c) peek() / top()**
+
+* **Goal**: Return the top element without removing it.
+* **Precondition**: Stack not empty.
+* **Steps**:
+
+  1. If `top == nullptr`, error (empty).
+  2. Return `top->data`.
+* **Time Complexity**: O(1)
+
+---
+
+### **d) size()**
+
+* **Goal**: Return number of elements in the stack.
+* **Implementation options**:
+
+  * Maintain a counter updated on `push`/`pop` → O(1).
+  * Traverse from `top` to `nullptr` counting nodes → O(n).
+* **Time Complexity**: O(1) if counter kept, otherwise O(n)
+
+---
+
+### **e) empty()**
+
+* **Goal**: Check if the stack has no elements.
+* **Condition**: `top == nullptr` means empty.
+* **Time Complexity**: O(1)
+
+---
+
+## **4. Edge Cases / Errors**
+
+* **Underflow**: Calling `pop` or `peek` when `top == nullptr`.
+* **Memory allocation failure**: Rare, but `new` may fail when pushing if system memory is exhausted.
+
+---
+
+## **5. Optional Enhancements**
+
+* **Safe copy / destructor**:
+  If the stack is encapsulated in a class, implement a destructor to free all nodes, and if copying is allowed, a deep copy constructor / assignment to avoid shared ownership issues.
+
+* **Generic version**:
+  Template the node/stack to hold any type, not just `int`.
+
+---
+
+## **6. Memory Layout**
+
+* Nodes are allocated individually on the **heap**; each node holds its value and a pointer to the next node.
+* No contiguous block—linked structure allows dynamic growth without resizing.
+* Pointer overhead per element (the `next` pointer) exists, but no wasted unused capacity.
+
+---
+
+## **7. Sample Pseudocode**
+
+```plaintext
+structure Node:
+  data
+  next
+
+initialize:
+  top = null
+  count = 0  // optional, for size()
+
+function push(x):
+  new_node = allocate Node
+  new_node.data = x
+  new_node.next = top
+  top = new_node
+  count = count + 1
+
+function pop():
+  if top == null:
+    error "underflow"
+  value = top.data
+  temp = top
+  top = top.next
+  free temp
+  count = count - 1
+  return value
+
+function peek():
+  if top == null:
+    error "empty stack"
+  return top.data
+
+function size():
+  return count   // or traverse and count
+
+function empty():
+  return top == null
+```
+
+---
+
+## **8. Time & Space Complexity**
+
+* **Time Complexity**:
+
+  * `push` → O(1)
+  * `pop` → O(1)
+  * `peek` → O(1)
+  * `empty` → O(1)
+  * `size` → O(1) if maintained, O(n) if computed by traversal
+
+* **Space Complexity**:
+
+  * O(n) where n is number of elements (each node stores data + pointer)
+
+---
+
+
+no size ki tension , but when popping we need to iterate the linkedlist , becuase   top element node
+cant go back , which is single linkedlist
+ 
+ if 1->2->3->4->5 
+ if 5 is top and want to delete we should iteraate from 1 to 4 to find 5 and then delete 5
+
+ 
+
+ so we can handle this situation very better , 
+ create a node temp and point that to top node(previously created or linkedlist) and move top to temp , temp and top now at same point node i.e 5
+
+so we do like this 
+
+5->4->3->2->1
+
+in stack same for both

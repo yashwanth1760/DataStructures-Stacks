@@ -1,0 +1,168 @@
+
+
+# **Array-Based Stack Implementation – Theory**
+
+---
+
+## **1. Definition**
+
+A **stack** using an array stores elements in a **contiguous block of memory** and follows the **LIFO (Last In, First Out)** principle.
+It maintains a **top index** that points to the current top element. All insertions and deletions happen **only at the top end**.
+
+---
+
+## **2. Core Components**
+
+* **Array** `A[0..capacity-1]`
+
+  * Fixed-size storage unless dynamic resizing is implemented.
+
+* **Top Pointer / Index** `top`
+
+  * Points to the current top element in the stack.
+  * If using **0-based indexing**, `top` is the index of the last inserted element.
+  * **Common convention**: `top = -1` initially to represent an empty stack.
+
+* **Capacity**
+
+  * Maximum number of elements the stack can hold.
+
+---
+
+## **3. Basic Operations**
+
+### **a) push(x)**
+
+* **Goal**: Insert element `x` on top of the stack.
+* **Precondition**: Stack must not be full (**overflow** if full).
+* **Steps**:
+
+  1. Check if `top == capacity - 1` → **overflow error** if true.
+  2. Increment `top` → `top = top + 1`.
+  3. Set `A[top] = x`.
+* **Time Complexity**: O(1)
+
+---
+
+### **b) pop()**
+
+* **Goal**: Remove and return the top element.
+* **Precondition**: Stack must not be empty (**underflow** if empty).
+* **Steps**:
+
+  1. Check if `top == -1` → **underflow error** if true.
+  2. Retrieve `value = A[top]`.
+  3. Decrement `top` → `top = top - 1`.
+  4. Return `value`.
+* **Time Complexity**: O(1)
+
+---
+
+### **c) top() / peek()**
+
+* **Goal**: Return the top element without removing it.
+* **Precondition**: Stack must not be empty.
+* **Steps**:
+
+  1. If `top == -1`, throw error (stack is empty).
+  2. Return `A[top]`.
+* **Time Complexity**: O(1)
+
+---
+
+### **d) size()**
+
+* **Goal**: Return the number of elements in the stack.
+* **Formula**: `top + 1` (since `top` is index).
+* **Time Complexity**: O(1)
+
+---
+
+### **e) empty()**
+
+* **Goal**: Check if the stack has no elements.
+* **Condition**: `top == -1` means empty.
+* **Time Complexity**: O(1)
+
+---
+
+## **4. Edge Cases / Errors**
+
+* **Overflow**: Occurs when trying to push while `top == capacity - 1`.
+
+  * Fixed-size arrays cannot grow unless resized.
+* **Underflow**: Occurs when trying to pop or peek while `top == -1`.
+
+---
+
+## **5. Optional Enhancement – Dynamic Resizing**
+
+To simulate an unbounded stack:
+
+* On `push`, if array is full:
+
+  1. Allocate a new array with **double capacity**.
+  2. Copy all elements from the old array to the new array.
+  3. Update capacity and proceed.
+* **Amortized time complexity** for push remains **O(1)**.
+
+---
+
+## **6. Memory Layout**
+
+* Stored in **contiguous memory** (fast index-based access).
+* No extra pointers (unlike linked-list stacks) → lower memory overhead.
+
+---
+
+## **7. Sample Pseudocode**
+
+```plaintext
+initialize:
+  capacity = N
+  A = new array of size capacity
+  top = -1
+
+function push(x):
+  if top == capacity - 1:
+    error "overflow"
+  top = top + 1
+  A[top] = x
+
+function pop():
+  if top == -1:
+    error "underflow"
+  value = A[top]
+  top = top - 1
+  return value
+
+function peek():
+  if top == -1:
+    error "empty stack"
+  return A[top]
+
+function size():
+  return top + 1
+
+function empty():
+  return top == -1
+```
+
+---
+
+## **8. Time & Space Complexity**
+
+* **Time Complexity**:
+
+  * `push` → O(1)
+  * `pop` → O(1)
+  * `peek` → O(1)
+  * `size` → O(1)
+  * `empty` → O(1)
+* **Space Complexity**:
+
+  * O(capacity) for fixed-size array.
+  * If resizing, occasional O(n) copy operation.
+
+---
+
